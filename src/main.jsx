@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./index.css";
 import App from "./App.jsx";
-import Login from "./pages/Login.jsx";
+import Home from "./pages/Home.jsx";
+import Felip from "./pages/Felipe.jsx";
 
 const router = createBrowserRouter([
   {
@@ -12,8 +13,18 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "login",
-        element: <Login />,
+        path: "",
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "felipe-dev",
+        element: <Felip />,
       },
     ],
   },
