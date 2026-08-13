@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { isAuthenticated, getAccount } from "./Auth.jsx";
+import { isAuthenticated, getAccount } from "./Auth";
 
 
 export function ProtectedRoute({ children, allowedRoles, allowedTypes }) {
