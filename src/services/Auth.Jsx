@@ -1,4 +1,4 @@
-export function getToken() {
+export function getToken() { 
   return localStorage.getItem("token");
 }
 
