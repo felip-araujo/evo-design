@@ -1,12 +1,9 @@
-import Hero from "../elements/Hero";
+import AdminProjetos from "../element-port/Admin";
 
-function Home() {
-  
-  
-  return <> 
-  <Hero />
-  <a className="bg-emerald-600" href=""> Home </a>
-   </>;
+export default function Home() {
+  return (
+    <>
+      <AdminProjetos />
+    </>
+  );
 }
-
-export default Home;

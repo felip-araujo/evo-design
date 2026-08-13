@@ -4,9 +4,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./index.css";
 import App from "./App.jsx";
-import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
 import Felip from "./pages/Felipe.jsx";
-import Inicial from "./element-port/Inicial.jsx";
+import Home from "./pages/Home.jsx";
+import { ProtectedRoute } from "./services/ProtectedRoutes.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,8 +25,22 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "felipe-dev",
-        element: <Felip />,
+        path: "login",
+        element: <Login />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
