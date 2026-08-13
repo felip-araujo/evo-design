@@ -1,8 +1,6 @@
 import { ArrowRight, Download, Code2 } from "lucide-react";
-// import perfil from "../assets/perfil.jpg"; // ajuste o caminho da sua foto
 
 function Inicial() {
-  const perfil = "";
   return (
     <section
       id="inicio"
@@ -60,12 +58,13 @@ function Inicial() {
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/60">
             Desenvolvo soluções digitais personalizadas utilizando{" "}
             <strong className="text-white">PHP</strong>,{" "}
-            <strong className="text-white">JavaScript</strong> e{" "}
+            <strong className="text-white">React</strong>,{" "}
+            <strong className="text-white">NodeJs</strong> e{" "}
             <strong className="text-white">TailwindCSS</strong>, com sólida
             experiência no desenvolvimento de{" "}
-            <strong className="text-white">APIs REST</strong> em{" "}
-            <strong className="text-white">Laravel</strong> ou{" "}
-            <strong className="text-white">PHP nativo</strong>.
+            <strong className="text-white">API's REST</strong> em{" "}
+            <strong className="text-white">Next.js</strong> integrando{" "}
+            <strong className="text-white">Express e Prisma</strong>.
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -78,7 +77,7 @@ function Inicial() {
             </a>
 
             <a
-              href="/curriculo.pdf"
+              href="/Felipe Araujo-DesenvolvedorFull-Stack.pdf"
               className="inline-flex items-center justify-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-8 py-4 font-semibold text-white/85 backdrop-blur-xl transition hover:bg-white/10"
             >
               <Download size={20} />
@@ -96,7 +95,7 @@ function Inicial() {
 
           <div className="relative rotate-3 rounded-[2rem] border border-cyan-400/30 bg-white/5 p-3 shadow-2xl backdrop-blur-xl">
             <img
-              src={perfil}
+              src="/felipe-araujo.png"
               alt="Felipe Araujo"
               className="h-[420px] w-[340px] rounded-[1.5rem] object-cover"
             />
@@ -110,8 +109,8 @@ function Inicial() {
             <span className="font-bold text-yellow-300">JS</span>
           </div>
 
-          <div className="absolute -bottom-8 left-6 w-72 rotate-[-4deg] rounded-3xl border border-white/10 bg-[#08111f]/90 p-5 shadow-2xl backdrop-blur-xl">
-            <div className="mb-4 flex items-center gap-2">
+          <div className="absolute -bottom-30 left-0 w-62 rotate-[-4deg] rounded-2xl border border-white/10 bg-[#08111f]/30 p-4 shadow-3xl backdrop-blur-xl">
+            <div className="mb-4 flex items-center gap-4">
               <span className="h-3 w-3 rounded-full bg-emerald-400" />
               <span className="text-xs text-white/40">code.php</span>
             </div>
