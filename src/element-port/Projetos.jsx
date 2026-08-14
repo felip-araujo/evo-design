@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import {
   ArrowUpRight,
   Code2,
-//   Github,
+  GitBranch,
   Loader2,
   ExternalLink,
 } from "lucide-react";
@@ -234,15 +234,15 @@ function Projetos() {
                       </a>
                     )}
 
-                    {projetoDestaque.githubUrl && (
+                    {projetoDestaque.GitBranchUrl && (
                       <a
-                        href={projetoDestaque.githubUrl}
+                        href={projetoDestaque.GitBranchUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/80 transition hover:bg-white/10"
                       >
-                        <Github size={18} />
-                        GitHub
+                        <GitBranch size={18} />
+                        GitBranch
                       </a>
                     )}
                   </div>
@@ -339,15 +339,15 @@ function Projetos() {
                           </a>
                         )}
 
-                        {projeto.githubUrl && (
+                        {projeto.GitBranchUrl && (
                           <a
-                            href={projeto.githubUrl}
+                            href={projeto.GitBranchUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label={`GitHub do projeto ${projeto.title}`}
+                            aria-label={`GitBranch do projeto ${projeto.title}`}
                             className="ml-auto text-white/40 transition hover:text-white"
-                          >
-                            <Github size={19} />
+                          >]
+                            <GitBranch size={19} />
                           </a>
                         )}
                       </div>
