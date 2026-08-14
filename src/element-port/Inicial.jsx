@@ -77,7 +77,7 @@ function Inicial() {
             </a>
 
             <a
-              href="/Felipe Araujo-DesenvolvedorFull-Stack.pdf"
+              href="/Felipe_Araujo.pdf"
               className="inline-flex items-center justify-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-8 py-4 font-semibold text-white/85 backdrop-blur-xl transition hover:bg-white/10"
             >
               <Download size={20} />
