@@ -1,237 +1,94 @@
-import {
-  Code2,
-  MapPin,
-  BriefcaseBusiness,
-  GraduationCap,
-  ShieldCheck,
-  ServerCog,
-  Layers3,
-  Database,
-} from "lucide-react";
+﻿import { ArrowUpRight, MapPin } from "lucide-react";
+
+const tecnologias = [
+  "React", "Tailwind CSS", "JavaScript", "Node.js", "Express",
+  "Prisma", "PHP", "Laravel", "MySQL", "WordPress",
+];
 
 function Sobre() {
-  const tecnologias = [
-    "React",
-    "Tailwind CSS",
-    "JavaScript",
-    "Node.js",
-    "Express",
-    "Prisma",
-    "PHP",
-    "Laravel",
-    "MySQL",
-    "WordPress",
-  ];
-
   return (
     <section
       id="sobre"
-      className="relative overflow-hidden bg-[#030712] py-28 text-white"
+      aria-labelledby="about-title"
+      className="bg-[#101113] py-16 font-sans text-[#efefeb] selection:bg-[#c5f277] selection:text-[#101113] sm:py-20 lg:py-24"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_30%,rgba(34,197,94,0.10),transparent_30%),radial-gradient(circle_at_85%_70%,rgba(59,130,246,0.10),transparent_35%)]" />
-
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:80px_80px]" />
-
-      <div className="relative z-10 mx-auto w-[92%] max-w-7xl">
-        {/* Cabeçalho */}
-        <div
-          data-aos="fade-up"
-          className="mb-14 max-w-3xl"
-        >
-          <span className="mb-5 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-400">
-            <Code2 size={18} />
+      <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
+        <header className="mb-12 border-b border-white/10 pb-10 sm:mb-16 sm:pb-12">
+          <p className="mb-6 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.14em] text-[#c5f277]">
+            <span aria-hidden="true" className="h-px w-7 bg-current" />
             Sobre mim
-          </span>
-
-          <h2 className="text-4xl font-bold leading-tight tracking-tight md:text-6xl">
-            Tecnologia para transformar
-            <span className="block bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              problemas em soluções.
-            </span>
+          </p>
+          <h2 id="about-title" className="max-w-[18ch] text-4xl font-bold leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+            Por trás do código,<br />
+            pode me chamar de Felipe<span className="text-[#c5f277]">.</span>
           </h2>
+        </header>
+
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-16 xl:gap-24">
+          <div>
+            <p className="max-w-[40ch] text-xl leading-relaxed tracking-[-0.02em] text-white/90 sm:text-2xl">
+              Sou Felipe Araújo, desenvolvedor Full Stack. Meu trabalho vai da interface que você vê às integrações e à infraestrutura que sustentam uma aplicação.
+            </p>
+            <div className="mt-7 max-w-[55ch] space-y-5 text-base leading-8 text-white/65">
+              <p>
+                Há mais de cinco anos, desenvolvo sistemas web, APIs, plataformas e soluções digitais. Nesse caminho, trabalho com as diferentes partes de um produto: frontend, backend, dados e serviços que precisam conversar entre si.
+              </p>
+              <p>
+                Para mim, construir uma aplicação é olhar além do código. É entender o problema, cuidar da experiência de quem vai usar e pensar em como a solução será mantida depois de ir para o ar.
+              </p>
+              <p>
+                Minha experiência também passa por servidores, otimização de aplicações, segurança da informação e LGPD. Levo esse olhar para o desenvolvimento, buscando soluções funcionais, claras e fáceis de manter.
+              </p>
+            </div>
+
+            <div className="mt-9 border-l-2 border-[#c5f277] pl-5 sm:mt-10 sm:pl-6">
+              <p className="max-w-[36ch] text-lg font-medium leading-7 tracking-tight sm:text-xl sm:leading-8">
+                Do primeiro desenho à aplicação em produção, cada detalhe faz parte da solução.
+              </p>
+            </div>
+
+            <a href="#contato" className="group mt-8 inline-flex min-h-12 items-center gap-6 border-b border-[#c5f277]/40 py-3 text-sm font-medium text-[#c5f277] transition-colors duration-200 hover:text-[#efefeb] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c5f277] motion-reduce:transition-none">
+              Vamos conversar
+              <ArrowUpRight aria-hidden="true" size={18} className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none" />
+            </a>
+          </div>
+
+          <aside aria-label="Um pouco da minha trajetória" className="self-start border-t border-white/15 pt-6 lg:mt-1">
+            <div className="flex flex-wrap items-end justify-between gap-6 border-b border-white/10 pb-7">
+              <div>
+                <p className="text-6xl font-semibold leading-none tracking-[-0.05em] sm:text-7xl">
+                  5<span className="text-[#c5f277]">+</span>
+                </p>
+                <p className="mt-3 text-xs text-white/55">Anos construindo soluções digitais</p>
+              </div>
+              <p className="flex items-center gap-2 pb-1 text-xs text-white/65">
+                <MapPin aria-hidden="true" size={15} className="text-[#c5f277]" />
+                Manaus, Amazonas
+              </p>
+            </div>
+
+            <dl>
+              <div className="border-b border-white/10 py-6">
+                <dt className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/45">Formação</dt>
+                <dd className="mt-3 max-w-[28ch] text-base leading-7">Análise e Desenvolvimento de Sistemas</dd>
+              </div>
+              <div className="border-b border-white/10 py-6">
+                <dt className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/45">Atuação</dt>
+                <dd className="mt-3 text-sm leading-7 text-white/75">Frontend, backend e integração de sistemas. APIs REST, servidores e modelagem de dados com MySQL e MariaDB.</dd>
+              </div>
+              <div className="border-b border-white/10 py-6">
+                <dt className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/45">Um olhar além do desenvolvimento</dt>
+                <dd className="mt-3 text-sm leading-7 text-white/75">Segurança da informação, LGPD e otimização de aplicações.</dd>
+              </div>
+            </dl>
+          </aside>
         </div>
 
-        {/* Container principal */}
-        <div
-          data-aos="fade-up"
-          className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-2xl backdrop-blur-xl lg:grid-cols-[1.1fr_0.9fr]"
-        >
-          {/* Lado esquerdo */}
-          <div className="p-8 md:p-12 lg:p-14">
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400">
-              Desenvolvedor Full Stack
-            </span>
-
-            <h3 className="mt-4 max-w-2xl text-3xl font-bold leading-tight md:text-4xl">
-              Construo aplicações pensando além do código.
-            </h3>
-
-            <div className="mt-7 max-w-2xl space-y-5 text-base leading-8 text-white/55 md:text-lg">
-              <p>
-                Sou <strong className="font-semibold text-white">Felipe Araujo</strong>,
-                Desenvolvedor Full Stack com mais de{" "}
-                <strong className="font-semibold text-white">
-                  5 anos de experiência
-                </strong>{" "}
-                no desenvolvimento de sistemas web, APIs, plataformas e soluções
-                digitais.
-              </p>
-
-              <p>
-                Trabalho com tecnologias como{" "}
-                <strong className="font-semibold text-white">
-                  React, Node.js, PHP, JavaScript, Prisma e MySQL
-                </strong>
-                , atuando desde a construção da interface até arquitetura,
-                integração e desenvolvimento do backend.
-              </p>
-
-              <p>
-                Minha experiência também envolve{" "}
-                <strong className="font-semibold text-white">
-                  segurança da informação, LGPD, servidores, integração de
-                  serviços e otimização de aplicações
-                </strong>
-                , sempre buscando construir soluções funcionais, escaláveis e
-                fáceis de manter.
-              </p>
-            </div>
-
-            {/* Tecnologias */}
-            <div className="mt-9">
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/30">
-                Tecnologias que fazem parte do meu dia a dia
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {tecnologias.map((tecnologia) => (
-                  <span
-                    key={tecnologia}
-                    className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/60 transition hover:border-emerald-400/30 hover:text-emerald-300"
-                  >
-                    {tecnologia}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Lado direito */}
-          <div className="border-t border-white/10 bg-white/[0.015] p-8 md:p-10 lg:border-l lg:border-t-0">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              {/* Experiência */}
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-400">
-                  <BriefcaseBusiness size={21} />
-                </div>
-
-                <p className="mt-5 text-3xl font-bold">
-                  5<span className="text-emerald-400">+</span>
-                </p>
-
-                <p className="mt-1 text-sm text-white/40">
-                  Anos de experiência
-                </p>
-              </div>
-
-              {/* Full Stack */}
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
-                  <Layers3 size={21} />
-                </div>
-
-                <p className="mt-5 text-lg font-bold">
-                  Full Stack
-                </p>
-
-                <p className="mt-2 text-sm leading-6 text-white/40">
-                  Frontend, backend e integração de sistemas.
-                </p>
-              </div>
-
-              {/* Backend */}
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-400/10 text-blue-400">
-                  <ServerCog size={21} />
-                </div>
-
-                <p className="mt-5 text-lg font-bold">
-                  APIs REST
-                </p>
-
-                <p className="mt-2 text-sm leading-6 text-white/40">
-                  Node.js, Express, Prisma, PHP e integrações.
-                </p>
-              </div>
-
-              {/* Banco */}
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-400/10 text-violet-300">
-                  <Database size={21} />
-                </div>
-
-                <p className="mt-5 text-lg font-bold">
-                  Banco de Dados
-                </p>
-
-                <p className="mt-2 text-sm leading-6 text-white/40">
-                  MySQL, MariaDB e modelagem de aplicações.
-                </p>
-              </div>
-            </div>
-
-            {/* Informações */}
-            <div className="mt-4 space-y-3">
-              <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5">
-                  <MapPin
-                    size={18}
-                    className="text-emerald-400"
-                  />
-                </div>
-
-                <div>
-                  <p className="text-xs text-white/30">Localização</p>
-                  <p className="mt-1 text-sm font-medium">
-                    Manaus, Amazonas
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5">
-                  <GraduationCap
-                    size={18}
-                    className="text-cyan-400"
-                  />
-                </div>
-
-                <div>
-                  <p className="text-xs text-white/30">Formação</p>
-                  <p className="mt-1 text-sm font-medium">
-                    Análise e Desenvolvimento de Sistemas
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5">
-                  <ShieldCheck
-                    size={18}
-                    className="text-blue-400"
-                  />
-                </div>
-
-                <div>
-                  <p className="text-xs text-white/30">Experiência adicional</p>
-                  <p className="mt-1 text-sm font-medium">
-                    LGPD e Segurança da Informação
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="mt-12 grid gap-5 border-t border-white/10 pt-6 sm:mt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
+          <h3 className="text-[11px] font-medium uppercase leading-6 tracking-[0.12em] text-white/45">Ferramentas do meu dia a dia</h3>
+          <ul aria-label="Tecnologias" className="flex flex-wrap gap-x-6 gap-y-2 text-sm leading-6 text-white/65">
+            {tecnologias.map((tecnologia) => <li key={tecnologia}>{tecnologia}</li>)}
+          </ul>
         </div>
       </div>
     </section>

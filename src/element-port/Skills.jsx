@@ -91,32 +91,28 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="relative overflow-hidden bg-[#030712] py-28 text-white"
+      aria-labelledby="skills-title"
+      className="bg-[#101113] py-16 font-sans text-[#efefeb] selection:bg-[#c5f277] selection:text-[#101113] sm:py-20 lg:py-24"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.10),transparent_30%),radial-gradient(circle_at_20%_80%,rgba(34,197,94,0.10),transparent_30%)]" />
-
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:80px_80px]" />
-
-      <div className="relative z-10 mx-auto w-[92%] max-w-7xl">
+      <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-16">
         {/* Cabeçalho */}
         <div
           data-aos="fade-up"
-          className="mb-14 max-w-3xl"
+          className="mb-12 border-b border-white/10 pb-10 sm:mb-16 sm:pb-12"
         >
-          <span className="mb-5 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-400">
-            <Code2 size={18} />
+          <span className="mb-6 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.14em] text-[#c5f277]">
+            <span aria-hidden="true" className="h-px w-7 bg-current" />
             Skills
           </span>
 
-          <h2 className="text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+          <h2 id="skills-title" className="max-w-3xl text-4xl font-bold leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
             Tecnologias que fazem parte
-            <span className="block bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              do meu dia a dia.
+            <span className="block">
+              do meu dia a dia<span className="text-[#c5f277]">.</span>
             </span>
           </h2>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/50">
+          <p className="mt-6 max-w-2xl text-base leading-8 text-white/65">
             Ferramentas e tecnologias que utilizo no desenvolvimento de
             aplicações, APIs, sistemas web e soluções digitais completas.
           </p>
@@ -132,29 +128,29 @@ function Skills() {
                 key={grupo.titulo}
                 data-aos="fade-up"
                 data-aos-delay={index * 80}
-                className="group rounded-[2rem] border border-white/10 bg-white/[0.03] p-7 transition duration-300 hover:-translate-y-1 hover:border-emerald-400/20 hover:bg-white/[0.045] md:p-8"
+                className="group min-w-0 border border-white/10 bg-[#151719] p-6 transition-colors duration-300 hover:border-[#c5f277]/35 motion-reduce:transition-none sm:p-7 md:p-8"
               >
                 <div className="flex items-start gap-5">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-emerald-400 transition group-hover:bg-emerald-400/10">
-                    <Icon size={23} />
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/10 text-[#c5f277] transition-colors duration-300 group-hover:border-[#c5f277]/35 motion-reduce:transition-none">
+                    <Icon aria-hidden="true" size={23} strokeWidth={1.5} />
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-bold">
+                    <h3 className="text-xl font-semibold tracking-[-0.025em] sm:text-2xl">
                       {grupo.titulo}
                     </h3>
 
-                    <p className="mt-2 text-sm leading-6 text-white/40">
+                    <p className="mt-2 text-sm leading-6 text-white/60">
                       {grupo.descricao}
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className="mt-6 flex flex-wrap gap-2 border-t border-white/10 pt-6">
                   {grupo.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="rounded-xl border border-white/10 bg-white/[0.035] px-3.5 py-2 text-sm font-medium text-white/65 transition hover:border-emerald-400/30 hover:bg-emerald-400/5 hover:text-emerald-300"
+                      className="border border-white/10 px-3.5 py-2 text-sm font-medium text-white/75 transition-colors duration-200 hover:border-[#c5f277]/40 hover:text-[#c5f277] motion-reduce:transition-none"
                     >
                       {skill}
                     </span>
@@ -168,20 +164,20 @@ function Skills() {
         {/* Como trabalho */}
         <div
           data-aos="fade-up"
-          className="mt-8 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025]"
+          className="mt-8 overflow-hidden border border-white/10 bg-[#151719] sm:mt-10"
         >
           <div className="border-b border-white/10 px-7 py-6 md:px-8">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
-                <ShieldCheck size={20} />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/10 text-[#c5f277]">
+                <ShieldCheck aria-hidden="true" size={20} strokeWidth={1.5} />
               </div>
 
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-400">
+                <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#c5f277]">
                   Além do código
                 </span>
 
-                <h3 className="mt-1 text-xl font-bold">
+                <h3 className="mt-1 text-xl font-semibold tracking-[-0.025em]">
                   Como trabalho
                 </h3>
               </div>
@@ -210,15 +206,17 @@ function Skills() {
                   }`}
                 >
                   <Icon
+                    aria-hidden="true"
                     size={22}
-                    className="text-white/30"
+                    strokeWidth={1.5}
+                    className="text-[#c5f277]"
                   />
 
-                  <h4 className="mt-5 font-semibold">
+                  <h4 className="mt-5 font-semibold tracking-tight">
                     {item.titulo}
                   </h4>
 
-                  <p className="mt-2 text-sm leading-6 text-white/35">
+                  <p className="mt-2 text-sm leading-6 text-white/60">
                     {item.descricao}
                   </p>
                 </div>
@@ -230,20 +228,20 @@ function Skills() {
         {/* Rodapé da seção */}
         <div
           data-aos="fade-up"
-          className="mt-8 flex flex-col gap-4 rounded-3xl border border-white/10 bg-gradient-to-r from-emerald-400/[0.06] to-blue-500/[0.06] p-6 md:flex-row md:items-center md:justify-between"
+          className="mt-8 flex flex-col gap-4 border-t border-white/10 py-6 md:flex-row md:items-center md:justify-between"
         >
           <div>
-            <p className="font-semibold">
+            <p className="font-medium tracking-tight">
               Desenvolvimento Full Stack de ponta a ponta
             </p>
 
-            <p className="mt-1 text-sm text-white/40">
+            <p className="mt-2 text-sm leading-6 text-white/55">
               Da interface ao banco de dados, API e integração com serviços.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-sm font-medium text-emerald-400">
-            <Code2 size={17} />
+          <div className="flex items-center gap-2 text-xs font-medium text-[#c5f277]">
+            <Code2 aria-hidden="true" size={17} />
             Frontend + Backend
           </div>
         </div>

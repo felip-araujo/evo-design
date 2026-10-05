@@ -1,0 +1,26 @@
+﻿@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.introduction,
+.stack {
+  animation: hero-enter 650ms ease-out both;
+}
+
+.stack {
+  animation-delay: 100ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .introduction,
+  .stack {
+    animation: none;
+  }
+}
