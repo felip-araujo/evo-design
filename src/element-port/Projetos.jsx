@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 
 import { API_URL } from "../services/ApiUrl";
+import ProjectDemo from "./ProjectDemo";
+import { projectMediaUrl } from "../services/projectMedia";
 
 function Github({ size = 24, ...props }) {
   return (
@@ -33,6 +35,7 @@ const linkStyle = "inline-flex min-h-11 items-center gap-2.5 text-sm font-medium
 function ProjectLinks({ projeto, featured = false }) {
   return (
     <div className="mt-auto flex flex-wrap items-center gap-x-7 gap-y-2 pt-7">
+      <ProjectDemo projeto={projeto} />
       {projeto.projectUrl && (
         <a href={projeto.projectUrl} target="_blank" rel="noopener noreferrer" aria-label={`Ver projeto ${projeto.title}`} className={featured ? "inline-flex min-h-12 items-center gap-8 border border-[#c5f277] bg-[#c5f277] px-6 py-3 text-sm font-semibold text-[#101113] transition-colors hover:bg-[#d7f69f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c5f277] motion-reduce:transition-none" : `${linkStyle} border-b border-[#c5f277]/40 text-[#c5f277]`}>
           Ver projeto <ArrowUpRight aria-hidden="true" size={17} />
@@ -58,7 +61,22 @@ function ProjectTechnologies({ technologies }) {
 }
 
 function ProjectCover({ projeto, featured = false }) {
-  const image = projeto.coverImage ? (
+  const hasDemo = projeto.demoUrl && ["GIF", "VIDEO"].includes(projeto.demoType);
+  const coverStyle = `relative block overflow-hidden border border-white/10 bg-[#181a1d] ${featured ? "aspect-[4/3] sm:aspect-[16/9] lg:aspect-[2/1]" : "aspect-[16/10]"}`;
+
+  if (hasDemo && projeto.demoType === "VIDEO") {
+    return (
+      <div className={coverStyle}>
+        <video src={projectMediaUrl(projeto.demoUrl)} poster={projeto.coverImage || undefined} autoPlay={!window.matchMedia("(prefers-reduced-motion: reduce)").matches} muted loop controls playsInline preload="metadata" aria-label={`Demonstração de ${projeto.title}`} className="h-full w-full object-contain">
+          Seu navegador não suporta vídeo. <a href={projectMediaUrl(projeto.demoUrl)}>Abrir demonstração</a>
+        </video>
+      </div>
+    );
+  }
+
+  const image = hasDemo ? (
+    <img src={projectMediaUrl(projeto.demoUrl)} alt={`Demonstração do funcionamento de ${projeto.title}`} loading="lazy" className="h-full w-full object-contain" />
+  ) : projeto.coverImage ? (
     <img src={projeto.coverImage} alt={projeto.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" />
   ) : (
     <div className="flex h-full flex-col items-center justify-center gap-4 text-white/30">
@@ -66,7 +84,6 @@ function ProjectCover({ projeto, featured = false }) {
       <span className="text-[10px] uppercase tracking-[0.14em]">{projeto.category || "Aplicação web"}</span>
     </div>
   );
-  const coverStyle = `relative block overflow-hidden border border-white/10 bg-[#181a1d] ${featured ? "aspect-[4/3] sm:aspect-[16/9] lg:aspect-[2/1]" : "aspect-[16/10]"}`;
 
   if (projeto.projectUrl) {
     return (

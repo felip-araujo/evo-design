@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
   ArrowLeft,
@@ -19,6 +19,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { API_URL } from "../services/ApiUrl";
+import { getToken } from "../services/Auth.Jsx";
+import { DEMO_ACCEPT, MAX_DEMO_BYTES, demoTypeForFile, projectMediaUrl } from "../services/projectMedia";
 
 const FORM_INICIAL = {
   title: "",
@@ -26,6 +28,8 @@ const FORM_INICIAL = {
   summary: "",
   description: "",
   coverImage: "",
+  demoUrl: "",
+  demoType: "",
   technologies: "",
   projectUrl: "",
   githubUrl: "",
@@ -44,6 +48,33 @@ function AdminProjetos() {
   const [editandoId, setEditandoId] = useState(null);
 
   const [form, setForm] = useState(FORM_INICIAL);
+  const [demoFile, setDemoFile] = useState(null);
+  const [demoPreview, setDemoPreview] = useState("");
+  const demoInputRef = useRef(null);
+
+  useEffect(() => {
+    if (!demoPreview) return;
+    return () => URL.revokeObjectURL(demoPreview);
+  }, [demoPreview]);
+
+  function limparArquivoDemo() {
+    setDemoFile(null);
+    setDemoPreview("");
+    if (demoInputRef.current) demoInputRef.current.value = "";
+  }
+
+  function selecionarDemo(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const type = demoTypeForFile(file);
+    if (!type || file.size === 0 || file.size > MAX_DEMO_BYTES) {
+      toast.warning("Selecione um GIF, MP4 ou WebM de até 25 MB.");
+      event.target.value = "";
+      return;
+    }
+    setDemoPreview(URL.createObjectURL(file));
+    setDemoFile(file);
+  }
 
   useEffect(() => {
     carregarProjetos();
@@ -79,6 +110,7 @@ function AdminProjetos() {
   }
 
   function abrirNovoProjeto() {
+    limparArquivoDemo();
     setEditandoId(null);
     setForm(FORM_INICIAL);
     setMostrarFormulario(true);
@@ -90,6 +122,7 @@ function AdminProjetos() {
   }
 
   function editarProjeto(projeto) {
+    limparArquivoDemo();
     setEditandoId(projeto.id);
 
     setForm({
@@ -98,6 +131,8 @@ function AdminProjetos() {
       summary: projeto.summary || "",
       description: projeto.description || "",
       coverImage: projeto.coverImage || "",
+      demoUrl: projeto.demoUrl || "",
+      demoType: projeto.demoType || "",
 
       technologies: Array.isArray(projeto.technologies)
         ? projeto.technologies.join(", ")
@@ -119,6 +154,7 @@ function AdminProjetos() {
   }
 
   function cancelarFormulario() {
+    limparArquivoDemo();
     setMostrarFormulario(false);
     setEditandoId(null);
     setForm(FORM_INICIAL);
@@ -126,6 +162,7 @@ function AdminProjetos() {
 
   async function salvarProjeto(e) {
     e.preventDefault();
+    if (salvando) return;
 
     if (!form.title.trim()) {
       toast.warning("Informe o título do projeto.");
@@ -145,6 +182,21 @@ function AdminProjetos() {
         .map((item) => item.trim())
         .filter(Boolean);
 
+      let demoUrl = form.demoUrl;
+      let demoType = form.demoType;
+      if (demoFile) {
+        const upload = new FormData();
+        upload.append("demo", demoFile);
+        const response = await axios.post(`${API_URL}/projeto/demo`, upload, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
+        demoUrl = response.data.demoUrl;
+        demoType = response.data.demoType;
+        // Keep the uploaded file reference if saving the project needs a retry.
+        setForm((prev) => ({ ...prev, demoUrl, demoType }));
+        limparArquivoDemo();
+      }
+
       const payload = {
         title: form.title.trim(),
 
@@ -158,6 +210,8 @@ function AdminProjetos() {
 
         coverImage:
           form.coverImage.trim() || null,
+        demoUrl: demoUrl || null,
+        demoType: demoType || null,
 
         technologies,
 
@@ -335,6 +389,7 @@ function AdminProjetos() {
               <button
                 type="button"
                 onClick={cancelarFormulario}
+                disabled={salvando}
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/50 transition hover:bg-white/10 hover:text-white"
               >
                 <X size={20} />
@@ -345,7 +400,7 @@ function AdminProjetos() {
               onSubmit={salvarProjeto}
               className="p-6 md:p-8"
             >
-              <div className="grid gap-6 lg:grid-cols-2">
+              <fieldset disabled={salvando} className="grid min-w-0 gap-6 lg:grid-cols-2">
                 {/* TÍTULO */}
                 <div>
                   <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-white/45">
@@ -439,6 +494,27 @@ function AdminProjetos() {
                         alt="Prévia"
                         className="h-52 w-full object-cover"
                       />
+                    </div>
+                  )}
+                </div>
+
+                <div className="lg:col-span-2">
+                  <label htmlFor="project-demo-file" className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-white/45">
+                    Demonstração do projeto (opcional)
+                  </label>
+                  <p className="mb-3 text-sm leading-6 text-white/50">Envie um GIF ou vídeo curto do sistema funcionando. GIF, MP4 ou WebM, até 25 MB. A demonstração será a mídia principal no portfólio; a capa fica como alternativa.</p>
+                  <input ref={demoInputRef} id="project-demo-file" type="file" accept={DEMO_ACCEPT} disabled={salvando} onChange={selecionarDemo} className="input-admin file:mr-4 file:border-0 file:bg-[#c5f277] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#101113]" />
+                  {(demoFile || form.demoUrl) && (
+                    <div className="mt-4 border border-white/10 p-4">
+                      {((demoFile && demoTypeForFile(demoFile)) || form.demoType) === "VIDEO" ? (
+                        <video src={demoFile ? demoPreview : projectMediaUrl(form.demoUrl)} controls playsInline preload="metadata" className="max-h-72 w-full" />
+                      ) : (
+                        <img src={demoFile ? demoPreview : projectMediaUrl(form.demoUrl)} alt="Prévia da demonstração" className="max-h-72 w-full object-contain" />
+                      )}
+                      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+                        <span className="text-xs text-white/50">{demoFile ? `${demoFile.name} · ${(demoFile.size / 1024 / 1024).toFixed(1)} MB` : "Demonstração cadastrada"}</span>
+                        <button type="button" disabled={salvando} onClick={() => { limparArquivoDemo(); setForm((prev) => ({ ...prev, demoUrl: "", demoType: "" })); }} className="min-h-10 text-sm text-red-300 hover:text-red-200 disabled:opacity-50">Remover demonstração</button>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -594,13 +670,14 @@ function AdminProjetos() {
                     </div>
                   </label>
                 </div>
-              </div>
+              </fieldset>
 
               {/* BOTÕES */}
               <div className="mt-8 flex flex-col justify-end gap-3 border-t border-white/10 pt-6 sm:flex-row">
                 <button
                   type="button"
                   onClick={cancelarFormulario}
+                  disabled={salvando}
                   className="rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white/70 transition hover:bg-white/10"
                 >
                   Cancelar
