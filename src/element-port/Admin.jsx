@@ -19,8 +19,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { API_URL } from "../services/ApiUrl";
-import { getToken } from "../services/Auth.Jsx";
-import { DEMO_ACCEPT, MAX_DEMO_BYTES, demoTypeForFile, projectMediaUrl } from "../services/projectMedia";
+import { COVER_ACCEPT, MAX_COVER_BYTES, coverMimeForFile, DEMO_ACCEPT, MAX_DEMO_BYTES, demoTypeForFile, projectMediaUrl } from "../services/projectMedia";
+import { uploadProjectMedia } from "../services/uploadProjectMedia";
 
 const FORM_INICIAL = {
   title: "",
@@ -51,6 +51,32 @@ function AdminProjetos() {
   const [demoFile, setDemoFile] = useState(null);
   const [demoPreview, setDemoPreview] = useState("");
   const demoInputRef = useRef(null);
+  const [coverFile, setCoverFile] = useState(null);
+  const [coverPreview, setCoverPreview] = useState("");
+  const coverInputRef = useRef(null);
+
+  useEffect(() => {
+    if (!coverPreview) return;
+    return () => URL.revokeObjectURL(coverPreview);
+  }, [coverPreview]);
+
+  function limparArquivoCapa() {
+    setCoverFile(null);
+    setCoverPreview("");
+    if (coverInputRef.current) coverInputRef.current.value = "";
+  }
+
+  function selecionarCapa(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (!coverMimeForFile(file) || file.size === 0 || file.size > MAX_COVER_BYTES) {
+      toast.warning("Selecione PNG, JPG, WebP ou GIF de até 10 MB.");
+      event.target.value = "";
+      return;
+    }
+    setCoverPreview(URL.createObjectURL(file));
+    setCoverFile(file);
+  }
 
   useEffect(() => {
     if (!demoPreview) return;
@@ -98,6 +124,7 @@ function AdminProjetos() {
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
+    if (name === "coverImage") limparArquivoCapa();
 
     setForm((prev) => ({
       ...prev,
@@ -111,6 +138,7 @@ function AdminProjetos() {
 
   function abrirNovoProjeto() {
     limparArquivoDemo();
+    limparArquivoCapa();
     setEditandoId(null);
     setForm(FORM_INICIAL);
     setMostrarFormulario(true);
@@ -123,6 +151,7 @@ function AdminProjetos() {
 
   function editarProjeto(projeto) {
     limparArquivoDemo();
+    limparArquivoCapa();
     setEditandoId(projeto.id);
 
     setForm({
@@ -155,6 +184,7 @@ function AdminProjetos() {
 
   function cancelarFormulario() {
     limparArquivoDemo();
+    limparArquivoCapa();
     setMostrarFormulario(false);
     setEditandoId(null);
     setForm(FORM_INICIAL);
@@ -184,14 +214,17 @@ function AdminProjetos() {
 
       let demoUrl = form.demoUrl;
       let demoType = form.demoType;
+      let coverImage = form.coverImage;
+      if (coverFile) {
+        const uploaded = await uploadProjectMedia(coverFile, "cover");
+        coverImage = uploaded.coverImage;
+        setForm((prev) => ({ ...prev, coverImage }));
+        limparArquivoCapa();
+      }
       if (demoFile) {
-        const upload = new FormData();
-        upload.append("demo", demoFile);
-        const response = await axios.post(`${API_URL}/projeto/demo`, upload, {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        });
-        demoUrl = response.data.demoUrl;
-        demoType = response.data.demoType;
+        const uploaded = await uploadProjectMedia(demoFile, "demo");
+        demoUrl = uploaded.demoUrl;
+        demoType = uploaded.demoType;
         // Keep the uploaded file reference if saving the project needs a retry.
         setForm((prev) => ({ ...prev, demoUrl, demoType }));
         limparArquivoDemo();
@@ -209,7 +242,7 @@ function AdminProjetos() {
           form.description.trim() || null,
 
         coverImage:
-          form.coverImage.trim() || null,
+          coverImage.trim() || null,
         demoUrl: demoUrl || null,
         demoType: demoType || null,
 
@@ -253,6 +286,7 @@ function AdminProjetos() {
 
       toast.error(
         error.response?.data?.message ||
+          error.message ||
           "Erro ao salvar projeto."
       );
     } finally {
@@ -478,7 +512,8 @@ function AdminProjetos() {
                     />
 
                     <input
-                      type="url"
+                      type="text"
+                      inputMode="url"
                       name="coverImage"
                       value={form.coverImage}
                       onChange={handleChange}
@@ -487,13 +522,21 @@ function AdminProjetos() {
                     />
                   </div>
 
-                  {form.coverImage && (
+                  <label htmlFor="project-cover-file" className="mb-2 mt-4 block text-sm text-white/60">Ou envie a imagem de capa</label>
+                  <input ref={coverInputRef} id="project-cover-file" type="file" accept={COVER_ACCEPT} disabled={salvando} onChange={selecionarCapa} className="input-admin file:mr-4 file:border-0 file:bg-[#c5f277] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#101113]" />
+                  <p className="mt-2 text-xs leading-6 text-white/45">PNG, JPG, WebP ou GIF, até 10 MB.</p>
+
+                  {(coverFile || form.coverImage) && (
                     <div className="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-black/20">
                       <img
-                        src={form.coverImage}
+                        src={coverFile ? coverPreview : projectMediaUrl(form.coverImage)}
                         alt="Prévia"
                         className="h-52 w-full object-cover"
                       />
+                      <div className="flex flex-wrap items-center justify-between gap-3 p-4">
+                        <span className="text-xs text-white/50">{coverFile ? coverFile.name : "Capa cadastrada"}</span>
+                        <button type="button" disabled={salvando} onClick={() => { limparArquivoCapa(); setForm((prev) => ({ ...prev, coverImage: "" })); }} className="min-h-10 text-sm text-red-300 hover:text-red-200 disabled:opacity-50">Remover capa</button>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -774,7 +817,7 @@ function AdminProjetos() {
                       <div className="relative min-h-[180px] overflow-hidden bg-[#08111f] md:min-h-full">
                         {projeto.coverImage ? (
                           <img
-                            src={projeto.coverImage}
+                            src={projectMediaUrl(projeto.coverImage)}
                             alt={projeto.title}
                             className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                           />

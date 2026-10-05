@@ -67,7 +67,7 @@ function ProjectCover({ projeto, featured = false }) {
   if (hasDemo && projeto.demoType === "VIDEO") {
     return (
       <div className={coverStyle}>
-        <video src={projectMediaUrl(projeto.demoUrl)} poster={projeto.coverImage || undefined} autoPlay={!window.matchMedia("(prefers-reduced-motion: reduce)").matches} muted loop controls playsInline preload="metadata" aria-label={`Demonstração de ${projeto.title}`} className="h-full w-full object-contain">
+        <video src={projectMediaUrl(projeto.demoUrl)} poster={projectMediaUrl(projeto.coverImage) || undefined} autoPlay={!window.matchMedia("(prefers-reduced-motion: reduce)").matches} muted loop controls playsInline preload="metadata" aria-label={`Demonstração de ${projeto.title}`} className="h-full w-full object-contain">
           Seu navegador não suporta vídeo. <a href={projectMediaUrl(projeto.demoUrl)}>Abrir demonstração</a>
         </video>
       </div>
@@ -77,7 +77,7 @@ function ProjectCover({ projeto, featured = false }) {
   const image = hasDemo ? (
     <img src={projectMediaUrl(projeto.demoUrl)} alt={`Demonstração do funcionamento de ${projeto.title}`} loading="lazy" className="h-full w-full object-contain" />
   ) : projeto.coverImage ? (
-    <img src={projeto.coverImage} alt={projeto.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" />
+    <img src={projectMediaUrl(projeto.coverImage)} alt={projeto.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none" />
   ) : (
     <div className="flex h-full flex-col items-center justify-center gap-4 text-white/30">
       <Code2 aria-hidden="true" size={featured ? 64 : 32} strokeWidth={1} />

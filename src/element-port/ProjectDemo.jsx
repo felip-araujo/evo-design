@@ -35,7 +35,7 @@ function ProjectDemo({ projeto }) {
         {opened && (
           <div className="bg-black p-2 sm:p-4">
             {projeto.demoType === "VIDEO" ? (
-              <video src={projectMediaUrl(projeto.demoUrl)} poster={projeto.coverImage || undefined} controls playsInline preload="metadata" aria-label={`Vídeo demonstrativo de ${projeto.title}`} className="mx-auto max-h-[70dvh] w-full">
+              <video src={projectMediaUrl(projeto.demoUrl)} poster={projectMediaUrl(projeto.coverImage) || undefined} controls playsInline preload="metadata" aria-label={`Vídeo demonstrativo de ${projeto.title}`} className="mx-auto max-h-[70dvh] w-full">
                 Seu navegador não suporta vídeo. <a href={projectMediaUrl(projeto.demoUrl)}>Abrir demonstração</a>
               </video>
             ) : (
