@@ -7,6 +7,7 @@ import {
   GitBranch,
   Image,
   Loader2,
+  LogOut,
   Pencil,
   Plus,
   Save,
@@ -14,11 +15,12 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { API_URL } from "../services/ApiUrl";
+import { logout } from "../services/Auth.Jsx";
 import { COVER_ACCEPT, MAX_COVER_BYTES, coverMimeForFile, DEMO_ACCEPT, MAX_DEMO_BYTES, demoTypeForFile, projectMediaUrl } from "../services/projectMedia";
 import { uploadProjectMedia } from "../services/uploadProjectMedia";
 import Analytics from "./Analytics";
@@ -40,6 +42,13 @@ const FORM_INICIAL = {
 };
 
 function AdminProjetos() {
+  const navigate = useNavigate();
+
+  function sair() {
+    logout();
+    navigate("/login", { replace: true });
+  }
+
   const [projetos, setProjetos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [salvando, setSalvando] = useState(false);
@@ -392,6 +401,7 @@ function AdminProjetos() {
             </div>
           </div>
 
+          <div className="flex flex-wrap items-center gap-3">
           {!mostrarFormulario && (
             <button
               onClick={abrirNovoProjeto}
@@ -401,6 +411,16 @@ function AdminProjetos() {
               Novo Projeto
             </button>
           )}
+            <button
+              type="button"
+              onClick={sair}
+              disabled={salvando || excluindoId !== null}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white/70 transition hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <LogOut size={19} />
+              Sair
+            </button>
+          </div>
         </div>
 
         <Analytics />
