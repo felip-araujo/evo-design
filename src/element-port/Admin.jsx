@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { API_URL } from "../services/ApiUrl";
 import { COVER_ACCEPT, MAX_COVER_BYTES, coverMimeForFile, DEMO_ACCEPT, MAX_DEMO_BYTES, demoTypeForFile, projectMediaUrl } from "../services/projectMedia";
 import { uploadProjectMedia } from "../services/uploadProjectMedia";
+import Analytics from "./Analytics";
 
 const FORM_INICIAL = {
   title: "",
@@ -401,6 +402,8 @@ function AdminProjetos() {
             </button>
           )}
         </div>
+
+        <Analytics />
 
         {/* FORMULÁRIO */}
         {mostrarFormulario && (
